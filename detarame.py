@@ -124,13 +124,13 @@ class OsuFile:
         # set attributes (only some implemented)
         self.data = data
         self.mode = GameMode(int(self.get_value(Section.GENERAL, "Mode")))
+        if self.mode != GameMode.TAIKO:
+            raise GameModeError(f"GameMode is {self.mode}, should be {GameMode.TAIKO}")
+        
         if Section.HIT_OBJECTS in headers.keys():
             self.hit_objects = [HitObject(l) for l in data[Section.HIT_OBJECTS]]
 
     def detarame(self, seed: Optional[int], weight: float) -> None:
-        if self.mode != GameMode.TAIKO:
-            raise GameModeError(f"GameMode is {self.mode}, should be {GameMode.TAIKO}")
-        
         # prepare seed
         self.seed = ''.join(secrets.choice('1234567890') for _ in range(6)) if seed is None else seed
         rng = Random(self.seed)

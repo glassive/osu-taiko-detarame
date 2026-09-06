@@ -2,10 +2,30 @@ from argparse import Namespace, ArgumentParser
 from pathlib import Path
 from detarame import OsuFile
 
+
+def choose_osu_file() -> Path:
+    import tkinter as tk
+    from tkinter import filedialog
+
+    root = tk.Tk()
+    root.withdraw()
+    try:
+        selected_path = filedialog.askopenfilename(
+            title="Select an osu! beatmap",
+            filetypes=[("osu! beatmaps", "*.osu"), ("All files", "*.*")],
+        )
+    finally:
+        root.destroy()
+
+    if not selected_path:
+        raise ValueError("No .osu file selected")
+
+    return Path(selected_path)
+
+
 def optional_prompts(args: Namespace) -> Namespace:
     if args.path is None:
-        manual_path = input("Path to .osu file: ").strip().strip('"')
-        args.path = Path(manual_path)
+        args.path = choose_osu_file()
 
     print(f"Loaded {args.path}")
 
