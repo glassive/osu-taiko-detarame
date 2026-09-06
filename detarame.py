@@ -3,11 +3,11 @@ from enum import Enum
 from typing import Any, Optional
 from random import Random
 import secrets
-import sys
 
-class FileFormatError:
+
+class FileFormatError(Exception):
     pass
-class FileSuffixError:
+class FileSuffixError(Exception):
     pass
 class GameModeError(ValueError):
     pass
@@ -146,7 +146,7 @@ class OsuFile:
 
         # update version and beatmap id
         current_version: str = self.get_value(Section.METADATA, "Version")
-        new_version = f"{current_version} - Detarame ({self.seed})"
+        new_version = f"{current_version} - Detarame ({self.seed} - {weight})"
         self.set_value(Section.METADATA, "Version", new_version)
         self.set_value(Section.METADATA, "BeatmapID", 0)
     
@@ -173,33 +173,3 @@ class OsuFile:
         output_path = Path(self.file.resolve().parent / new_filename)
         output_path.touch()
         output_path.write_text("\n".join(lines), encoding="utf-8")
-
-
-
-if __name__ == "__main__":
-    try:
-        path = Path(sys.argv[1])
-    except IndexError:
-        print("Drag and drop a .osu file to get started!")
-        input()
-        exit()
-
-    try:
-        file = OsuFile(path)
-
-        try:
-            seed = int(input("[Optional] Add a custom numeric seed\n(Press Enter to ignore): "))
-        except ValueError:
-            seed = None
-
-        try:
-            weight = int(input("\n[Optional] Add a custom weight between 0 and 1 (0 = All Kat, 1 = All Don)\n(Press Enter to ignore): "))
-        except ValueError:
-            weight = 0.5
-        file.detarame(seed, weight)
-        file.export()
-        print(f"\nSuccess! Seed: \x1b[1;39;49m{file.seed}\x1b[0m")
-
-    except Exception as e:
-        print(f"\nError! {e}")
-    input("\nPress Enter to exit...")

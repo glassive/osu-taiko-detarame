@@ -9,7 +9,7 @@ You can grab an executable build over at the [Releases](https://github.com/glass
 - **Drag-and-drop a `.osu` file onto the executable**, or;
 - **Run the program in any terminal** by adding your file path as an argument, e.g.:
 ```bash
-detarame.exe "D:/osu!/Songs/12345 - Mapset/Artist - Title (Mapper) [Inner Oni].osu"
+detarame.exe "D:/osu!/Songs/12345 - Mapset/Artist - Title (Mapper) [Inner Oni].osu" --seed 727 --weight 0.63
 ```
 
 You will then be prompted to enter a custom seed and weight if you wish. The RNG and weight are both entirely deterministic. The weight controls the colour density (0 = all Kat, 1 = all Don).
@@ -22,4 +22,4 @@ This is a half-arsed implementation of an OOP-style `.osu` parser that only deal
 
 ## AI Notice
 
-**This is not a vibe-coded project**. I made this small tool mostly by hand + Google searches, only resorting to AI for slight improvements and fixes. The decision making, code structure, etc. are not affected. The GitHub workflow .yml file was AI-generated because I could not be bothered to deal with that, sorry `:-(`
+**This is not a vibe-coded project**. I made this small tool mostly by hand + Google searches, only resorting to AI for slight improvements and fixes. The decision making, code structure, etc. are not affected. The GitHub workflow .yml file and part of the boilerplate for the CLI interaction are AI-generated because I could not be bothered to deal with it, sorry `:-(`
